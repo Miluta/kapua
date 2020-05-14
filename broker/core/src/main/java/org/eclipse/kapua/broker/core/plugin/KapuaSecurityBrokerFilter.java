@@ -559,7 +559,7 @@ public class KapuaSecurityBrokerFilter extends BrokerFilter {
                         kapuaSecurityContext.getUserName(),
                         ((KapuaPrincipal) kapuaSecurityContext.getMainPrincipal()).getClientId(),
                         ((KapuaPrincipal) kapuaSecurityContext.getMainPrincipal()).getClientIp(),
-                        kapuaSecurityContext.getConnectionId(),
+                        kapuaSecurityContext.getKapuaConnectionId(),
                         messageSend.getDestination());
                 logger.warn(message);
                 publishMetric.getMessageSizeNotAllowed().update(messageSend.getSize());
@@ -574,7 +574,7 @@ public class KapuaSecurityBrokerFilter extends BrokerFilter {
                 kapuaSecurityContext.setMissing();
             }
             // FIX #164
-            messageSend.setProperty(MessageConstants.HEADER_KAPUA_CONNECTION_ID, Base64.getEncoder().encodeToString(SerializationUtils.serialize(kapuaSecurityContext.getConnectionId())));
+            messageSend.setProperty(MessageConstants.HEADER_KAPUA_CONNECTION_ID, Base64.getEncoder().encodeToString(SerializationUtils.serialize(kapuaSecurityContext.getKapuaConnectionId())));
             messageSend.setProperty(MessageConstants.HEADER_KAPUA_CLIENT_ID, ((KapuaPrincipal) kapuaSecurityContext.getMainPrincipal()).getClientId());
             messageSend.setProperty(MessageConstants.HEADER_KAPUA_CONNECTOR_DEVICE_PROTOCOL,
                     Base64.getEncoder().encodeToString(SerializationUtils.serialize(kapuaSecurityContext.getConnectorDescriptor())));
@@ -638,7 +638,7 @@ public class KapuaSecurityBrokerFilter extends BrokerFilter {
                         kapuaSecurityContext.getUserName(),
                         ((KapuaPrincipal) kapuaSecurityContext.getMainPrincipal()).getClientId(),
                         ((KapuaPrincipal) kapuaSecurityContext.getMainPrincipal()).getClientIp(),
-                        kapuaSecurityContext.getConnectionId(),
+                        kapuaSecurityContext.getKapuaConnectionId(),
                         info.getDestination());
                 logger.warn(message);
                 subscribeMetric.getNotAllowedMessages().inc();

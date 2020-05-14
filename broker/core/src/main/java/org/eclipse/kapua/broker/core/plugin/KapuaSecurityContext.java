@@ -29,12 +29,18 @@ import org.eclipse.kapua.service.authentication.KapuaPrincipal;
  */
 public class KapuaSecurityContext extends SecurityContext {
 
+    public static final int BROKER_CONNECT_IDX = 0;
+    public static final int DEVICE_MANAGE_IDX = 1;
+    public static final int DATA_VIEW_IDX = 2;
+    public static final int DATA_MANAGE_IDX = 3;
+    public static final int DEVICE_VIEW_IDX = 4;
+
     private KapuaPrincipal principal;
     private KapuaSession kapuaSession;
-    private KapuaId connectionId;
+    private KapuaId kapuaConnectionId;
+    private String connectionId;
     private Set<Principal> principals;
     private ConnectorDescriptor connectorDescriptor;
-    private String brokerConnectionId;
 
     private AuthorizationMap authMap;
 
@@ -54,9 +60,9 @@ public class KapuaSecurityContext extends SecurityContext {
         principals.add(principal);
 
         this.authMap = authMap;
-        this.connectionId = kcc.getKapuaConnectionId();
+        kapuaConnectionId = kcc.getKapuaConnectionId();
         this.connectorDescriptor = kcc.getConnectorDescriptor();
-        this.brokerConnectionId = kcc.getConnectionId();
+        connectionId = kcc.getConnectionId();
     }
 
     public KapuaPrincipal getKapuaPrincipal() throws KapuaException {
@@ -79,12 +85,12 @@ public class KapuaSecurityContext extends SecurityContext {
         return authMap;
     }
 
-    public KapuaId getConnectionId() {
-        return connectionId;
+    public KapuaId getKapuaConnectionId() {
+        return kapuaConnectionId;
     }
 
-    public String getBrokerConnectionId() {
-        return brokerConnectionId;
+    public String getConnectionId() {
+        return connectionId;
     }
 
     public ConnectorDescriptor getConnectorDescriptor() {
@@ -102,4 +108,5 @@ public class KapuaSecurityContext extends SecurityContext {
     public boolean isMissing() {
         return missing;
     }
+
 }
